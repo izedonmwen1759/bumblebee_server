@@ -6,7 +6,7 @@ const PORT = process.env.PORT ||  5006
 const server = app.listen(PORT, () => console.log('server running on '+PORT))
 const io = require('socket.io')(server, {
     cors:{
-        origin:'https://etalk-app.herokuapp.com/'
+        origin:'https://arcane-dawn-97707.herokuapp.com/'
     }
 }) 
 const mysql = require("mysql")
