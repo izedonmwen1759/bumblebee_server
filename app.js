@@ -33,7 +33,7 @@ function onConnected(socket){
         }).then(response => response.text())
         .then(data => {
             
-           // socket.emit('report', data)
+           socket.emit('registration', data)
         }); 
     })
     socket.on('login', (res) =>{   
@@ -44,14 +44,29 @@ function onConnected(socket){
             mode:'cors'
         }).then(response => response.text())
         .then(data => { 
+            
             socket.emit('login', data)  
         });   
         
     })
+    
+socket.on('logout',(res)=>{
+    
+    const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/updateLogs.php' 
+    fetch(url, {
+        method: 'POST',
+        body: res, 
+        mode:'cors'
+    }).then(response => response.text())
+    .then(data => { 
+       
+       socket.emit('logout', data)
+    }); 
+})
     socket.on('user_connected', (id) =>{ 
         users[id] = socket.id
        // socket.broadcast.emit("user_connected", id) 
-       
+        
     })
 
 function userstatus(id){
