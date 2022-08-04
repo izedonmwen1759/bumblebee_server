@@ -150,7 +150,7 @@ function userstatus(id){
             
                 if(datedashArr[i].sex == d.num){                    
                     
-                    io.emit('datedash2', datedashArr[i])                  
+                    socket.emit('datedash2', datedashArr[i])                  
                 }          
             }
     }else{
