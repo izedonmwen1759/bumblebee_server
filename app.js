@@ -1,6 +1,4 @@
-const { response } = require('express')
 const express = require('express')
-const res = require('express/lib/response')
 const app = express()
 const PORT = process.env.PORT ||  5009
 const server = app.listen(PORT, () => console.log('server running on '+PORT))
@@ -10,9 +8,6 @@ const io = require('socket.io')(server, {
     }
 })   
 const fetch = require("node-fetch")
-const redis = require('redis')
-const redis_port = process.env.PORT || 5009
-const client = redis.createClient(redis_port)
 const { v4: uuidV4} = require('uuid')
 //app.use(express.static(path.join(__dirname, 'testwork')))
 
