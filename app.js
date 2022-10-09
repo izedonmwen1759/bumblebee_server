@@ -145,11 +145,11 @@ socket.on('topics', (data)=>{
     const anotherData = {
         roomid: uuidV4(),
         topic:data.topic,
-        comments:data.comments,
         userid:data.userid
     }   
     const ddd = JSON.stringify(anotherData)
-    const url = 'http://localhost/xtreamz/php/post_topics.php'
+    const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/post_topics.php'
+   // const url = 'http://localhost/xtreamz/php/post_topics.php'
     fetch(url, {
         method: 'POST',
         body: ddd, 
