@@ -73,8 +73,8 @@ socket.on('user_connected', (id) =>{
             mode:'cors'
         }).then(response => response.text())
         .then(data => { 
-            const dd = JSON.parse(data)           
-            io.emit('topics', dd)        
+             
+            io.emit('topics', data)        
         }); 
      
     })
@@ -156,8 +156,8 @@ socket.on('topics', (data)=>{
         mode:'cors'
     }).then(response => response.text())
     .then(dat => { 
-        const dd = JSON.parse(dat)
-        io.emit('topics', dd) 
+       
+        io.emit('topics', dat) 
     }); 
    
     
