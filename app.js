@@ -22,7 +22,7 @@ io.on('connection',  onConnected)
 
 function onConnected(socket){
     
-    console.log(socket.id)
+    
     socketConnected.add(socket.id)                 
  
     socket.on('registration', (data)=>{ 
@@ -50,7 +50,19 @@ function onConnected(socket){
         });   
         
     })
-    
+socket.on('feed-back', (data)=>{ 
+    var res = JSON.stringify(data)    
+    const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/feedback.php' 
+    //const url = 'http://localhost/xtreamz/php/feedback.php'
+    fetch(url, {
+        method: 'POST',
+        body: res,
+        mode:'cors'
+    }).then(response => response.text())
+    .then(data => { 
+              
+    }); 
+})   
 socket.on('logout',(res)=>{
     
     const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/updateLogs.php' 
@@ -63,8 +75,8 @@ socket.on('logout',(res)=>{
        
        socket.emit('logout', data)
     }); 
-})
-socket.on('user_connected', (id) =>{ 
+}) 
+socket.on('user_connected', (id) =>{    
         users[id] = socket.id
         const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/get_topics.php' 
         //const url = 'http://localhost/xtreamz/php/get_topics.php'
@@ -128,6 +140,9 @@ socket.on('dashaccount',(data)=>{
       
    
   })  
+socket.on('control-room-dash',()=>{  
+    io.emit('datedash', datedashArr)
+})
   socket.on('report_message', (data)=>{
 
       if(userstatus(data.to) === undefined || userstatus(data.to) === 'undefined'){
@@ -140,7 +155,20 @@ socket.on('dashaccount',(data)=>{
    
     socket.to(userstatus(data.id)).emit('schedule', data)
   })
-socket.on('topics', (data)=>{ 
+socket.on('check-subscription', (data)=>{    
+    const ddd = JSON.stringify(data)
+    const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/checksub.php'
+    //const url = 'http://localhost/xtreamz/php/checksub.php'
+    fetch(url, {
+        method: 'POST',
+        body: ddd, 
+        mode:'cors'
+    }).then(response => response.text())
+    .then(dat => {  
+      socket.emit('check-subscription', dat) 
+    });      
+  })
+socket.on('topics', (data)=>{  
     
     const anotherData = {
         roomid: uuidV4(),
@@ -149,7 +177,7 @@ socket.on('topics', (data)=>{
     }   
     const ddd = JSON.stringify(anotherData)
     const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/post_topics.php'
-   // const url = 'http://localhost/xtreamz/php/post_topics.php'
+    //const url = 'http://localhost/xtreamz/php/post_topics.php'
     fetch(url, {
         method: 'POST',
         body: ddd, 
@@ -173,7 +201,6 @@ socket.on('payment-successful', (res)=>{
         mode:'cors'
     }).then(response => response.text())
     .then(data => {  
-        console.log(res.id)
          update_user_settings(res.id)
     }); 
 })
@@ -192,8 +219,8 @@ socket.on('zoom-successful', (res)=>{
 })
 socket.on('get-appointments',(res)=>{
     var data = JSON.stringify(res)    
-    const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/get_appointments.php'
-    //const url = 'http://localhost/xtreamz/php/get_appointments.php'
+    //const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/get_appointments.php'
+    const url = 'http://localhost/xtreamz/php/get_appointments.php'
     fetch(url, { 
         method: 'POST',
         body: data,
@@ -206,7 +233,7 @@ socket.on('get-appointments',(res)=>{
 socket.on('send-zcode',(res)=>{
     var data = JSON.stringify(res)    
     const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/update_appointments.php'
-    //const url = 'http://localhost/xtreamz/php/.php'
+    //const url = 'http://localhost/xtreamz/php/update_appointments.php'
     fetch(url, { 
         method: 'POST',
         body: data,
@@ -214,13 +241,18 @@ socket.on('send-zcode',(res)=>{
     }).then(response => response.text())
     .then(data => {
         socket.emit('send-zcode', '')
+        if(userstatus(res.to) === undefined){
+
+        }else{
+        socket.to(userstatus(res.to)).emit("send-zcode-receive",res.zcode) 
+        }
+       
     }); 
 })
 function update_user_settings(val){ 
     const res = {
         user:val
     }
-    console.log(res+" defined")
     const ress = JSON.stringify(res)
     const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/getaccount.php' 
     fetch(url, {
@@ -251,7 +283,7 @@ socket.on('getTopicDetails', (ddd)=>{
     });      
             
 })
-socket.on('get-ip-location', ()=>{
+socket.on('get-iip-location', ()=>{
     const url = 'https://api.db-ip.com/v2/free/self' 
     fetch(url, { 
        method: 'POST'
@@ -275,7 +307,7 @@ socket.on('leave-room',(data)=>{
 socket.on('comments', (ddd)=>{
     const data = JSON.stringify(ddd)  
     const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/post_comments.php'
-    //const url = 'http://localhost/xtreamz/php/.php'
+    //const url = 'http://localhost/xtreamz/php/post_comments.php'
     fetch(url, {
         method: 'POST',
         body: data,
@@ -285,145 +317,10 @@ socket.on('comments', (ddd)=>{
         socket.emit('refresh-comments', ddd)
     }); 
    
-  //  io.to(ddd.room).emit("comments", ddd) 
+  //  io.to(ddd.room).emit("comments", ddd)  
    // 
    
 })
-
-
-
-
-//////////////////////////////////////////////////////////////////////////
-/////// AGENTS SERVER
-
-socket.on('agentLogin', (res)=>{
-    var data = JSON.stringify(res) 
-   
-    const url = 'https://www.emarkets24.com/apps/bumblebee-agent/phpscripts/login.php'
-    //const url = 'http://localhost/xtreamz/php/login.php'
-    fetch(url, {
-        method: 'POST',
-        body: data,
-        mode:'cors'
-    }).then(response => response.text())
-    .then(data => {           
-       socket.emit('agentLoginpage', data)
-    }); 
-})
-socket.on('agentCreateUsers', (res)=>{
-    var data = JSON.stringify(res)   
-    const url = 'https://www.emarkets24.com/apps/bumblebee-agent/phpscripts/agentAccountCreation.php'
-    //const url = 'http://localhost/xtreamz/php/agentAccountCreation.php'
-    fetch(url, {
-        method: 'POST',
-        body: data,
-        mode:'cors'
-    }).then(response => response.text())
-    .then(data => {   
-       socket.emit('agentCreateUsers', data)
-    }); 
-})
-socket.on('list-of-users', (res)=>{
-    var data = JSON.stringify(res)   
-    const url = 'https://www.emarkets24.com/apps/bumblebee-agent/phpscripts/listofusers.php'
-    //const url = 'http://localhost/xtreamz/php/listusers.php'
-    fetch(url, {
-        method: 'POST',
-        body: data,
-        mode:'cors'
-    }).then(response => response.text())
-    .then(data => {
-       socket.emit('list-of-users', data)
-    });       
-})
-socket.on('find-user-with-email', (res)=>{
-    var data = JSON.stringify(res)   
-    const url = 'https://www.emarkets24.com/apps/bumblebee-agent/phpscripts/findusers.php'
-    //const url = 'http://localhost/xtreamz/php/findusers.php'
-    fetch(url, {
-        method: 'POST',
-        body: data,
-        mode:'cors'
-    }).then(response => response.text())
-    .then(data => {   
-      socket.emit('find-user-with-email', data)
-    }); 
-})
-socket.on('subscription-user', (res)=>{
-    var data = JSON.stringify(res)   
-   
-    const url = 'https://www.emarkets24.com/apps/bumblebee-agent/phpscripts/subscription.php'
-    //const url = 'http://localhost/xtreamz/php/subscription.php'
-    fetch(url, { 
-        method: 'POST',
-        body: data,
-        mode:'cors'
-    }).then(response => response.text())
-    .then(data => {  
-        socket.emit('subscription-user',data)   
-    }); 
-}) 
-socket.on('show-table-sub', (res)=>{
-    var data = JSON.stringify(res)   
-    const url = 'https://www.emarkets24.com/apps/bumblebee-agent/phpscripts/agentAccountCreation.php'
-    //const url = 'http://localhost/xtreamz/php/subscription-table.php'
-    fetch(url, { 
-         method: 'POST',
-        body: data,
-        mode:'cors'
-    }).then(response => response.text())
-    .then(data => {  
-        socket.emit('show-table-sub',data)   
-    }); 
-})   
-socket.on('earnings',(res)=>{
-    var data = JSON.stringify(res)   
-    const url = 'https://www.emarkets24.com/apps/bumblebee-agent/phpscripts/earnings.php'
-    //const url = 'http://localhost/xtreamz/php/earnings.php'
-    fetch(url, { 
-        method: 'POST',
-        body: data,
-        mode:'cors'
-    }).then(response => response.text())
-    .then(data => {  
-        socket.emit('show-table-sub',data)   
-    }); 
-})
-socket.on('agent-registration',(res)=>{
-    var data = JSON.stringify(res)   
-   
-    //const url = 'https://www.emarkets24.com/apps/bumblebee-agent/phpscripts/agentAccountCreation.php'
-    const url = 'http://localhost/xtreamz/php/bumblebee-users.php'
-    fetch(url, { 
-        method: 'POST',
-        body: data,
-        mode:'cors'
-    }).then(response => response.text())
-    .then(data => {  
-        console.log(data)
-        socket.emit('agent-registration',data)   
-    }); 
-})
-socket.on('feedback-developers',(res)=>{
-    var data = JSON.stringify(res)   
-   
-    const url = 'https://www.emarkets24.com/apps/bumblebee-agent/phpscripts/bumblebee-users.php'
-    //const url = 'http://localhost/xtreamz/php/bumblebee-users.php'
-    fetch(url, { 
-        method: 'POST',
-        body: data,
-        mode:'cors'
-    }).then(response => response.text())
-    .then(data => {  
-        console.log(data)
-        socket.emit('agent-registration',data)   
-    }); 
-})
-///////////////////////////////////////////////////////////////////////////
-////////ADMIN CONTROL
-
-
-
 
 
 
