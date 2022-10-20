@@ -36,7 +36,7 @@ socket.on('registration', (data)=>{
             
            socket.emit('registration', data)
         }); 
-    })
+   })
 socket.on('login', (res) =>{   
         const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/login.php' 
         fetch(url, {
@@ -100,7 +100,18 @@ function userstatus(id){
     }
     return userSocket
 }
-
+socket.on('forgot-account',(data)=>{
+    var res = JSON.stringify(data)
+    const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/forgot-account.php' 
+    fetch(url, {
+        method: 'POST',
+        body: res, 
+        mode:'cors'
+    }).then(response => response.text())  
+    .then(daa => { 
+       socket.emit('forgot-account', daa)
+    }); 
+})
 
 socket.on('calendaSetting', (data)=>{
     socket.to(userstatus(data.receiver)).emit('calendaSetting', data)
