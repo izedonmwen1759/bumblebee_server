@@ -89,8 +89,7 @@ socket.on('user_connected', (id) =>{
             io.emit('topics', data)        
         }); 
      
-    })
-
+})
 function userstatus(id){
    let  userSocket = ''
     if(users[id] === undefined){
