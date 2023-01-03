@@ -62,7 +62,17 @@ socket.on('feed-back', (data)=>{
     .then(data => { 
               
     }); 
-})   
+})  
+socket.on('get-all-approved-channels', ()=>{     
+    const url = 'https://44.202.167.211/BizLand/class/sendfiles.php'
+    fetch(url, {
+        method: 'POST',
+        mode:'cors'
+    }).then(response => response.text())
+    .then(data => { 
+        socket.emit('get-all-approved-channels', data)      
+    }); 
+})  
 socket.on('logout',(res)=>{
     
     const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/updateLogs.php' 
