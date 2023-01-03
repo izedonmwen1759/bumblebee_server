@@ -66,7 +66,7 @@ socket.on('feed-back', (data)=>{
 socket.on('get-all-approved-channels', ()=>{     
     const url = 'https://44.202.167.211/BizLand/class/sendfiles.php'
     fetch(url, {
-        method: 'POST',
+        method: 'GET',
         mode:'cors'
     }).then(response => response.text())
     .then(data => { 
