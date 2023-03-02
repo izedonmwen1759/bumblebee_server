@@ -224,16 +224,14 @@ socket.on('send-message-for-user-account-update', (send_data)=>{
 }) 
     
     
- socket.on('fetch-users-livetv', (send_data)=>{
-    const ddd = JSON.stringify(send_data)
+ socket.on('fetch-users-livetv-data', ()=>{
     const url = 'https://falling-haze-10808.pktriot.net/class/sendfiles.php'    
     fetch(url, {
         method: 'POST',
-        body: ddd, 
         mode:'cors'
     }).then(response => response.text())
     .then(dat => {    
-        socket.emit('fetch-users-livetv', dat)   
+        socket.emit('fetch-users-livetv-data', dat)   
     }); 
 })   
     
