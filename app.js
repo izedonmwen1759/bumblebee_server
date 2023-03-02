@@ -222,6 +222,25 @@ socket.on('send-message-for-user-account-update', (send_data)=>{
         socket.emit('send-message-for-user-account-update', "")   
     }); 
 }) 
+    
+    
+ socket.on('fetch-users-livetv', (send_data)=>{
+    const ddd = JSON.stringify(send_data)
+    const url = 'https://falling-haze-10808.pktriot.net/class/sendfiles.php'    
+    fetch(url, {
+        method: 'POST',
+        body: ddd, 
+        mode:'cors'
+    }).then(response => response.text())
+    .then(dat => {    
+        socket.emit('fetch-users-livetv', dat)   
+    }); 
+})   
+    
+    
+    
+    
+    
 socket.on('send-message-for-user-email-update', (send_data)=>{
     const ddd = JSON.stringify(send_data)
     const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/sendpetition-email.php'
