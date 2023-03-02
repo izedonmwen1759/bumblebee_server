@@ -235,6 +235,17 @@ socket.on('send-message-for-user-account-update', (send_data)=>{
     }); 
 })   
     
+   socket.on('fetch-users-vodfiles', ()=>{
+    const url = 'https://falling-haze-10808.pktriot.net/class/sendfiles-vod.php'    
+    fetch(url, {
+        method: 'POST',
+        mode:'cors'
+    }).then(response => response.text())
+    .then(dat => {    
+        socket.emit('fetch-users-vodfiles', dat)   
+    }); 
+})   
+    
     
     
     
