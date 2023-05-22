@@ -64,7 +64,7 @@ socket.on('feed-back', (data)=>{
     }); 
 })  
 socket.on('get-all-approved-channels', ()=>{     
-    const url = 'https://44.202.167.211/BizLand/class/sendfiles.php'
+    const url = 'https://drellon.com/class/sendfiles.php'
     fetch(url, {
         method: 'GET',
         mode:'cors'
@@ -225,7 +225,7 @@ socket.on('send-message-for-user-account-update', (send_data)=>{
     
     
  socket.on('fetch-users-livetv-data', ()=>{
-    const url = 'https://elegant-sun-03276.pktriot.net/class/sendfiles.php'    
+    const url = 'https://drellon.com/class/sendfiles.php'    
     fetch(url, {
         method: 'POST',
         mode:'cors'
@@ -236,7 +236,7 @@ socket.on('send-message-for-user-account-update', (send_data)=>{
 })   
     
    socket.on('fetch-users-vodfiles', ()=>{
-    const url = 'https://elegant-sun-03276.pktriot.net/class/sendfiles-vod.php'    
+    const url = 'https://drellon.com/class/sendfiles-vod.php'    
     fetch(url, {
         method: 'POST',
         mode:'cors'
@@ -248,7 +248,7 @@ socket.on('send-message-for-user-account-update', (send_data)=>{
     
 socket.on('fetch-users-vod', (send_data)=>{
     const ddd = JSON.stringify(send_data)
-    const url = 'https://elegant-sun-03276.pktriot.net/class/fetch-users-vod.php'    
+    const url = 'https://drellon.com/class/fetch-users-vod.php'    
     fetch(url, {
         method: 'POST',
         body: ddd, 
