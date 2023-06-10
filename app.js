@@ -47,9 +47,19 @@ socket.on('login', (res) =>{
         .then(data => { 
             
             socket.emit('login', data)  
-        });   
+});   
         
-    })
+socket.on('get-channels', ()=>{
+    
+      const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/channels.php' 
+    fetch(url, {
+        method: 'POST',
+        mode:'cors'
+    }).then(response => response.text())  
+    .then(data => {       
+       socket.emit('get-channels', data)
+    }); 
+}) 
 socket.on('feed-back', (data)=>{ 
     var res = JSON.stringify(data)    
     const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/feedback.php' 
