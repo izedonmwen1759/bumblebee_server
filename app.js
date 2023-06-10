@@ -44,11 +44,10 @@ socket.on('login', (res) =>{
             body: res,
             mode:'cors'
         }).then(response => response.text())
-        .then(data => { 
-            
+        .then(data => {            
             socket.emit('login', data)  
-});   
-        
+    });   
+});      
 socket.on('get-channels', ()=>{
     
       const url = 'https://www.emarkets24.com/apps/bumblebee/phpscripts/channels.php' 
