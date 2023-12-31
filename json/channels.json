@@ -1,0 +1,5 @@
+[{"ChannelName":"Blitz Movies","m3url":"http://localhost:7777/data/media/medi.m3u8","viewtype":"1","xql":"41073","type":"Movies","image":"http://localhost/xtreamz/img/redesign14.PNG"},
+        {"ChannelName":"Blitz Sports","m3url":"http://localhost:7778/data/media/sisu.m3u8","viewtype":"1","xql":"4075","type":"News","image":"http://localhost/xtreamz/img/redesign15.PNG"},
+
+        {"ChannelName":"Bein Sport","m3url":"http://tunestream.me:8080/bumblebeetvlist/beeride/2744",
+        "viewtype":"1","xql":"2744","type":"Sport","image":"http://localhost/xtreamz/img/redesign27.PNG"}]
