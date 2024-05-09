@@ -215,6 +215,9 @@ socket.on('topics', (data)=>{
 socket.on('get-topics', ()=>{  
             socket.emit('topics', JSON.stringify(userdataTop))   
 })
+socket.on('admin-users', ()=>{
+    socket.emit('admin-users', userdata)    
+})
 socket.on('comments', (ddd)=>{   
     userdataComment.push(ddd)
     var str = JSON.stringify(userdataComment)
