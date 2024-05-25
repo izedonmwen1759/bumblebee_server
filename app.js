@@ -7,14 +7,14 @@ const io = require('socket.io')(server, {
         origin:'*'      
     } 
 }) 
-const sha1 = require('crypto-js/sha1') 
+//const sha1 = require('crypto-js/sha1') 
 const {v4 : uuidV4} = require('uuid')
 const fetch = require("node-fetch")
 const fs = require('fs')
-const corss = require('cors')
+/*const corss = require('cors')
 app.use(corss({     
     origin:'http://localhost:9876'
-}))
+}))*/
 app.get("/", (req, res) => {
     //res.sendFile(__dirname + "/index/");
      res.end(channelArrs)
