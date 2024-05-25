@@ -15,10 +15,6 @@ const fs = require('fs')
 app.use(corss({     
     origin:'http://localhost:9876'
 }))*/
-app.get("/", (req, res) => {
-    //res.sendFile(__dirname + "/index/");
-     res.end(channelArrs)
-}); 
 
 let socketConnected = new Set()
 var movies = []
@@ -40,7 +36,6 @@ var userdataComment = JSON.parse(dataComment)
 var dataDash = fs.readFileSync('./json/datedash.json')
 var userdataDash = JSON.parse(dataDash)
 var cha = fs.readFileSync('./json/channels.json')
-var channelArrs = JSON.parse(cha)
 
 app.get("/media/:medi", (req,res)=>{
      res.send(userdata)    
